@@ -1,14 +1,13 @@
 #ifndef cacheLRU_H_
 #define cacheLRU_H_
 
-#include "splayTree.h"
 #include <exception>
 
 using namespace std;
 
 
 template<typename Key,typename Value>
-class cacheLRU:public SplayTree<Key,Value>
+class cacheLRU
 {
     public:
         cacheLRU(int capacity):cap(capacity){n=0;time_del=0;}
@@ -17,17 +16,18 @@ class cacheLRU:public SplayTree<Key,Value>
         {
             if(n==cap)
             {
-                SplayTree<Key,Value>::deleteMinLeaf();
+                //这里capacity已经达到上线了
+                //删除最远的leaf
                 n--;
                 time_del++;
             }
-            SplayTree<Key,Value>::insert(keyValuePair);
+            //插入新值
             n++;
         }
         std::pair<const Key,Value> get(const Key& key)
         {
-            typename SplayTree<Key,Value>::iterator it=SplayTree<Key,Value>::find(key);
-            if(it==SplayTree<Key,Value>::end())
+            //查找key,找不到
+            if(it==SplayTree<Key,Value>::end())//找不到就扔logic_error
             {
                 throw logic_error("Not found");
                 //throw logic_error exception
