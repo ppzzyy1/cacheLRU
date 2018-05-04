@@ -2,17 +2,17 @@
 #define cacheLRU_H_
 
 #include <exception>
+#inlcude "Splay.h"
 
 using namespace std;
 
 
-template<typename Key,typename Value>
+template<typename T0,typename T1>
 class cacheLRU
 {
     public:
         cacheLRU(int capacity):cap(capacity){n=0;time_del=0;}
-        ~cacheLRU(){}
-        void put(const std::pair<const Key,Value>& keyValuePair)
+        void put(  std::pair<  T0,T1>& keyT1Pair)
         {
             if(n==cap)
             {
@@ -24,20 +24,22 @@ class cacheLRU
             //插入新值
             n++;
         }
-        std::pair<const Key,Value> get(const Key& key)
+        std::pair<  T0,T1> get(  T0& key)
         {
             //查找key,找不到
-            if(it==SplayTree<Key,Value>::end())//找不到就扔logic_error
+            if(find(key)==NULL))//找不到就扔logic_error
             {
                 throw logic_error("Not found");
                 //throw logic_error exception
-                return make_pair((Key)0,(Value)0);
+                return make_pair((T0)0,(T1)0);
             }
             return *it;
         }
+
     private:
         int cap;
         int n;
+        int time_del;
     protected:
 };
 
